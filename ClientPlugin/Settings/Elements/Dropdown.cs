@@ -56,7 +56,7 @@ namespace ClientPlugin.Settings.Elements
             dropdown.ItemSelected += OnItemSelect;
             dropdown.SelectItemByIndex(Convert.ToInt32(selectedEnum));
 
-            var label = Tools.GetLabelOrDefault(name, Label);
+            var label = Tools.Tools.GetLabelOrDefault(name, Label);
             return new List<Control>()
             {
                 new Control(new MyGuiControlLabel(text: label), minWidth: Control.LabelMinWidth),

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using VRageMath;
 
-namespace ClientPlugin.Settings.Elements
+namespace ClientPlugin.Settings.Tools
 {
     public static class Tools
     {

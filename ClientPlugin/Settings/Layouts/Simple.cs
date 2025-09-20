@@ -10,8 +10,8 @@ namespace ClientPlugin.Settings.Layouts
 {
     internal class Simple : Layout
     {
-        private MyGuiControlParent Parent;
-        private MyGuiControlScrollablePanel ScrollPanel;
+        private MyGuiControlParent parent;
+        private MyGuiControlScrollablePanel scrollPanel;
 
         public override Vector2 SettingsPanelSize => new Vector2(0.5f, 0.7f);
         private const float ElementPadding = 0.01f;
@@ -20,21 +20,21 @@ namespace ClientPlugin.Settings.Layouts
 
         public override List<MyGuiControlBase> RecreateControls()
         {
-            Parent = new MyGuiControlParent()
+            parent = new MyGuiControlParent()
             {
                 OriginAlign = MyGuiDrawAlignEnum.HORISONTAL_CENTER_AND_VERTICAL_TOP,
                 Position = Vector2.Zero, 
                 Size = new Vector2(SettingsPanelSize.X-0.01f, SettingsPanelSize.Y-0.09f),
             };
 
-            ScrollPanel = new MyGuiControlScrollablePanel(Parent)
+            scrollPanel = new MyGuiControlScrollablePanel(parent)
             {
                 BackgroundTexture = null,
                 BorderHighlightEnabled = false,
                 BorderEnabled = false,
                 OriginAlign = MyGuiDrawAlignEnum.HORISONTAL_CENTER_AND_VERTICAL_CENTER,
                 Position = new Vector2(0f, 0.03f), // Do not overlap the dialog's title
-                Size = Parent.Size,
+                Size = parent.Size,
                 ScrollbarVEnabled = true,
                 CanFocusChildren = true,
                 ScrolledAreaPadding = new MyGuiBorderThickness(0.005f),
@@ -45,20 +45,20 @@ namespace ClientPlugin.Settings.Layouts
             {
                 foreach (var control in row)
                 {
-                    Parent.Controls.Add(control.GuiControl);
+                    parent.Controls.Add(control.GuiControl);
                 }
             }
 
-            return new List<MyGuiControlBase> { ScrollPanel };
+            return new List<MyGuiControlBase> { scrollPanel };
         }
 
         public override void LayoutControls()
         {
-            var totalWidth = ScrollPanel.ScrolledAreaSize.X - 2 * ElementPadding;
+            var totalWidth = scrollPanel.ScrolledAreaSize.X - 2 * ElementPadding;
             
             var controls = GetControls();
             var totalHeight = ElementPadding + controls.Select(row => row.Max(c => c.GuiControl.Size.Y) + ElementPadding).Sum();
-            Parent.Size = new Vector2(Parent.Size.X, totalHeight);
+            parent.Size = new Vector2(parent.Size.X, totalHeight);
             
             var rowY = -0.5f * totalHeight + ElementPadding;
             foreach (var row in controls)
@@ -77,7 +77,7 @@ namespace ClientPlugin.Settings.Layouts
                 var sumFillFactors = row.Select(c => c.FixedWidth.HasValue ? 0f : c.FillFactor ?? 0f).Sum();
                 var unitWidth = sumFillFactors > 0f ? remainingWidth / sumFillFactors : 0f;
 
-                var controlX = -0.5f * Parent.Size.X + ElementPadding;
+                var controlX = -0.5f * parent.Size.X + ElementPadding;
                 foreach (var control in row)
                 {
                     var guiControl = control.GuiControl;
@@ -103,7 +103,7 @@ namespace ClientPlugin.Settings.Layouts
                 }
             }
             
-            ScrollPanel.RefreshInternals();
+            scrollPanel.RefreshInternals();
         }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using ClientPlugin.Settings.Tools;
 using VRage.Game;
 using VRage.Input;
 using VRage.Utils;
@@ -17,8 +18,8 @@ namespace ClientPlugin.Settings.Elements
         public readonly string Label;
         public readonly string Description;
 
-        private Func<Binding> PropertyGetter;
-        private Action<Binding> PropertySetter;
+        private Func<Binding> propertyGetter;
+        private Action<Binding> propertySetter;
 
         public KeybindAttribute(string label = null, string description = null)
         {
@@ -28,33 +29,33 @@ namespace ClientPlugin.Settings.Elements
 
         public List<Control> GetControls(string name, Func<object> propertyGetter, Action<object> propertySetter)
         {
-            PropertyGetter = () => (Binding)propertyGetter();
-            PropertySetter = (Binding b) => propertySetter(b);
+            this.propertyGetter = () => (Binding)propertyGetter();
+            this.propertySetter = b => propertySetter(b);
 
-            var binding = PropertyGetter();
+            var binding = this.propertyGetter();
 
-            var label = new MyGuiControlLabel(text: Tools.GetLabelOrDefault(name, Label));
+            var label = new MyGuiControlLabel(text: Tools.Tools.GetLabelOrDefault(name, Label));
 
             var ctrl = new MyGuiControlCheckbox(isChecked: binding.Ctrl, toolTip: "Ctrl");
             var alt = new MyGuiControlCheckbox(isChecked: binding.Alt, toolTip: "Alt");
             var shift = new MyGuiControlCheckbox(isChecked: binding.Shift, toolTip: "Shift");
             
             ctrl.IsCheckedChanged += (cb) => {
-                var b = PropertyGetter();
+                var b = this.propertyGetter();
                 b.Ctrl = cb.IsChecked;
-                PropertySetter(b);
+                this.propertySetter(b);
             };
 
             alt.IsCheckedChanged += (cb) => {
-                var b = PropertyGetter();
+                var b = this.propertyGetter();
                 b.Alt = cb.IsChecked;
-                PropertySetter(b);
+                this.propertySetter(b);
             };
 
             shift.IsCheckedChanged += (cb) => {
-                var b = PropertyGetter();
+                var b = this.propertyGetter();
                 b.Shift = cb.IsChecked;
-                PropertySetter(b);
+                this.propertySetter(b);
             };
 
             var control = new MyControl(
@@ -165,9 +166,9 @@ namespace ClientPlugin.Settings.Elements
             var userData = (ControlButtonData)button.UserData;
             userData.Control.AppendBoundButtonNames(ref output, userData.Device);
 
-            var binding = PropertyGetter();
+            var binding = propertyGetter();
             binding.Key = userData.Control.GetKeyboardControl();
-            PropertySetter(binding);
+            propertySetter(binding);
 
             MyControl.AppendUnknownTextIfNeeded(ref output, MyTexts.GetString(MyCommonTexts.UnknownControl_None));
             button.Text = output.ToString();

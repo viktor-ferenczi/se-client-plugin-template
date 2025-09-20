@@ -1,6 +1,6 @@
 using VRage.Input;
 
-namespace ClientPlugin.Settings.Elements
+namespace ClientPlugin.Settings.Tools
 {
     public struct Binding
     {

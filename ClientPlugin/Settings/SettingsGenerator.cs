@@ -22,17 +22,17 @@ namespace ClientPlugin.Settings
     {
         public readonly string Name;
 
-        private readonly List<AttributeInfo> Attributes;
-        private List<List<Control>> Controls;
+        private readonly List<AttributeInfo> attributes;
+        private List<List<Control>> controls;
         public SettingsScreen Dialog { get; private set; }
         public Layout ActiveLayout { get; private set; }
 
-        private static bool validateType(Type type, List<Type> typesList)
+        private static bool ValidateType(Type type, List<Type> typesList)
         {
             return typesList.Any(t => t.IsAssignableFrom(type));
         }
 
-        private static Delegate getDelegate(MethodInfo methodInfo)
+        private static Delegate GetDelegate(MethodInfo methodInfo)
         {
             // Reconstruct the type
             Type[] methodArgs = methodInfo.GetParameters().Select(p => p.ParameterType).ToArray();
@@ -44,23 +44,23 @@ namespace ClientPlugin.Settings
 
         public SettingsGenerator()
         {
-            Attributes = ExtractAttributes();
+            attributes = ExtractAttributes();
             Name = Config.Current.Title;
-            ActiveLayout = new Layouts.None(()=>Controls);
+            ActiveLayout = new None(()=>controls);
             Dialog = new SettingsScreen(Name, OnRecreateControls, size: ActiveLayout.SettingsPanelSize);
         }
 
         private List<MyGuiControlBase> OnRecreateControls()
         {
             CreateConfigControls();
-            List<MyGuiControlBase> controls = ActiveLayout.RecreateControls();
+            var controlsToRecreate = ActiveLayout.RecreateControls();
             ActiveLayout.LayoutControls();
-            return controls;
+            return controlsToRecreate;
         }
 
         public void SetLayout<T>() where T : Layout
         {
-            ActiveLayout = (T)Activator.CreateInstance(typeof(T), (Func<List<List<Control>>>)(() => Controls));
+            ActiveLayout = (T)Activator.CreateInstance(typeof(T), (Func<List<List<Control>>>)(() => controls));
             Dialog.UpdateSize(ActiveLayout.SettingsPanelSize);
         }
 
@@ -71,11 +71,11 @@ namespace ClientPlugin.Settings
 
         private void CreateConfigControls()
         {
-            Controls = new List<List<Control>>();
+            controls = new List<List<Control>>();
 
-            foreach (AttributeInfo info in Attributes)
+            foreach (AttributeInfo info in attributes)
             {
-                Controls.Add(info.ElementType.GetControls(info.Name, info.Getter, info.Setter));
+                controls.Add(info.ElementType.GetControls(info.Name, info.Getter, info.Setter));
             }
         }
 
@@ -85,16 +85,12 @@ namespace ClientPlugin.Settings
 
             foreach (var propertyInfo in typeof(Config).GetProperties())
             {
-                string name = propertyInfo.Name;
-                
-                object getter() => propertyInfo.GetValue(Config.Current);
-                void setter(object value) => propertyInfo.SetValue(Config.Current, value);
-
+                var name = propertyInfo.Name;
                 foreach (var attribute in propertyInfo.GetCustomAttributes())
                 {
                     if (attribute is IElement element)
                     {
-                        if (!validateType(propertyInfo.PropertyType, element.SupportedTypes))
+                        if (!ValidateType(propertyInfo.PropertyType, element.SupportedTypes))
                         {
                             throw new Exception(
                                 $"Element {element.GetType().Name} for {name} expects "
@@ -106,24 +102,29 @@ namespace ClientPlugin.Settings
                         {
                             ElementType = element,
                             Name = name,
-                            Getter = getter,
-                            Setter = setter
+                            Getter = Getter,
+                            Setter = Setter
                         };
                         config.Add(info);
                     }
                 }
+
+                continue;
+
+                object Getter() => propertyInfo.GetValue(Config.Current);
+                void Setter(object value) => propertyInfo.SetValue(Config.Current, value);
             }
 
             foreach (var methodInfo in typeof(Config).GetMethods())
             {
                 string name = methodInfo.Name;
-                Delegate method = getDelegate(methodInfo);
+                Delegate method = GetDelegate(methodInfo);
 
                 foreach (var attribute in methodInfo.GetCustomAttributes())
                 {
                     if (attribute is IElement element)
                     {
-                        if (!validateType(typeof(Delegate), element.SupportedTypes))
+                        if (!ValidateType(typeof(Delegate), element.SupportedTypes))
                         {
                             throw new Exception(
                                 $"Element {element.GetType().Name} for {name} expects "

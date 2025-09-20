@@ -18,7 +18,7 @@ namespace ClientPlugin.Settings.Layouts
         /// </summary>
         protected readonly Func<List<List<Control>>> GetControls;
 
-        public Layout(Func<List<List<Control>>> getControls)
+        protected Layout(Func<List<List<Control>>> getControls)
         {
             GetControls = getControls;
         }
