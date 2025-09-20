@@ -18,13 +18,12 @@ if "%NAME:~-1%"=="\" set NAME=%NAME:~0,-1%
 if "%SOURCE:~-1%"=="\" set SOURCE=%SOURCE:~0,-1%
 if "%BIN64:~-1%"=="\" set BIN64=%BIN64:~0,-1%
 
-REM Get the plugin directory
-set PLUGIN_DIR=%BIN64%\Plugins\Local
-
-REM Create this directory if it does not exist
+REM Verify Pulsar deployment and Local plugin folder
+set PLUGIN_DIR=%AppData%\Pulsar\Legacy\Local
 if not exist "%PLUGIN_DIR%" (
-    echo Creating "Local\" folder in "%BIN64%\Plugins\"
-    mkdir "%PLUGIN_DIR%" >NUL 2>&1
+    echo "Missing Local plugin folder: %PLUGIN_DIR%"  
+    echo "Pulsar not installed?"
+    exit /b 2
 )
 
 REM Copy the plugin into the plugin directory

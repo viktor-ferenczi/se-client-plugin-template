@@ -52,10 +52,6 @@
       <HintPath>$(Bin64)\EOSSDK.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="GameAnalytics.Mono, Version=1.0.7702.25490, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(Bin64)\GameAnalytics.Mono.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="HavokWrapper, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>$(Bin64)\HavokWrapper.dll</HintPath>
       <Private>False</Private>
@@ -74,10 +70,6 @@
     </Reference>
     <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
       <HintPath>$(Bin64)\netstandard.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
-      <HintPath>$(Bin64)\NLog.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ProtoBuf.Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -193,10 +185,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Common, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>$(Bin64)\System.Data.Common.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite, Version=1.0.102.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139">
-      <HintPath>$(Bin64)\System.Data.SQLite.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Diagnostics.Contracts, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -649,7 +637,7 @@
     <Compile Include="Settings\Tools\Tools.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="deploy.bat" />
+    <Content Include="Deploy.bat" />
     <Content Include="PluginHub.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -663,6 +651,6 @@
     <PreBuildEvent>call "$(SolutionDir)verify_props.bat" "$(Bin64)"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call "$(ProjectDir)deploy.bat" "$(TargetFileName)" "$(TargetDir)" "$(Bin64)"</PostBuildEvent>
+    <PostBuildEvent>call "$(ProjectDir)Deploy.bat" "$(TargetFileName)" "$(TargetDir)" "$(Bin64)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
