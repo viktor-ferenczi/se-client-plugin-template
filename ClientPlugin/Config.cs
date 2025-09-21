@@ -118,7 +118,7 @@ namespace ClientPlugin
 
         #endregion
 
-        #region Property change notification bilerplate
+        #region Property change notification boilerplate
 
         public static readonly Config Default = new Config();
         public static readonly Config Current = ConfigStorage.Load();
