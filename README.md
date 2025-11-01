@@ -6,7 +6,7 @@
 
 - [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/)
 - [Python 3.x](https://python.org) (tested with 3.9)
-- [Plugin Loader](https://github.com/sepluginloader/PluginLoader/)
+- [Pulsar](https://github.com/SpaceGT/Pulsar)
 - [.NET Framework 4.8.1 Developer Pack](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481)
 
 ## Create your plugin project
@@ -17,9 +17,15 @@
 4. Let `setup.py` auto-detect your install location or fill it in manually
 5. Open the solution in Visual Studio or Rider
 6. Make a test build, the plugin's DLL should be deployed (see the build log for the path)
-7. Test that the empty plugin can be enabled in Plugin Loader
+7. Test that the empty plugin can be enabled in Pulsar
 8. Replace the contents of this file with the description of your plugin
 9. Follow the TODO comments in the source code
+
+In case of questions please feel free to ask the SE plugin developer community on the
+[Pulsar](https://discord.gg/z8ZczP2YZY) Discord server in their relevant text channels. 
+They also have dedicated channels for plugin ideas, should you look for a new one.
+
+_Good luck!_
 
 ## Remarks
 
@@ -52,8 +58,8 @@ options than can fit on the screen the dialog will have a vertical scrollbar.
 ### Release
 
 - Always make your final release from a RELEASE build. (More optimized, removes debug code.)
-- Always test your RELEASE build before publishing. Sometimes is behaves differently.
-- In case of client plugins the Plugin Loader compiles your code, watch out for differences.
+- Always test your RELEASE build before publishing. Sometimes it behaves differently.
+- In case of client plugins the Pulsar compiles your code, watch out for differences.
 
 ### Communication
 
