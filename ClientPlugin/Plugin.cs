@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using ClientPlugin.Settings;
 using ClientPlugin.Settings.Layouts;
 using HarmonyLib;
@@ -9,7 +8,7 @@ using VRage.Plugins;
 namespace ClientPlugin
 {
     // ReSharper disable once UnusedType.Global
-    public class Plugin : IPlugin, IDisposable
+    public class Plugin : IPlugin
     {
         public const string Name = "ClientPluginTemplate";
         public static Plugin Instance { get; private set; }
