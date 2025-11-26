@@ -77,10 +77,9 @@ options than can fit on the screen the dialog will have a vertical scrollbar.
 
 Enable the Krafs publicizer to significantly reduce the amount of reflections you need to write.
 
-This can be done by systematically uncommenting the commented out project file and code sections marked with
-"Uncomment to enable publicizer support" in the comments. Make sure not to miss any of those. List the game assemblies
-you need to publicize in `GameAssembliesToPublicize.cs`. In case of problems read about the 
-[Krafs Publicizer](https://github.com/krafs/Publicizer) or reach out on the [Pulsar](https://discord.gg/z8ZczP2YZY) Discord server.
+This can be done by systematically uncommenting the code sections marked with "Uncomment to enable publicizer support".
+Make sure not to miss any of those. List the game assemblies you need to publicize in `GameAssembliesToPublicize.cs`.
+In case of problems read about the [Krafs Publicizer](https://github.com/krafs/Publicizer) or reach out on the [Pulsar](https://discord.gg/z8ZczP2YZY) Discord server.
 
 ### Troubleshooting
 
