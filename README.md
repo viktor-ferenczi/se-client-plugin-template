@@ -61,7 +61,7 @@ Customize the `Config` class in the `ClientPlugin` project, just follow the exam
 It supports many different data types, including key binding. Once you have more
 options than can fit on the screen the dialog will have a vertical scrollbar.
 
-![Example config dialog](Doc/ConfigDialogExample.png "Example config dialog")
+![Example config dialog](Docs/ConfigDialogExample.png "Example config dialog")
 
 ### Debugging
 

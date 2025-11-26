@@ -33,7 +33,7 @@ Runtime patching:
 
 Folder structure:
 - `.run`: JetBrains Rider run configurations (for convenience)
-- `Docs`: Images linked from the README file or any further documentation should go here.
+- `Doc`: Images linked from the README file or any further documentation should go here.
 - `ClientPlugin`: Pulsar builds only the source code under this folder or its subdirectories. You can find plugin initialization, configuration and logging directly in this folder.
 - `ClientPlugin/Settings`: Reusable configuration dialog components. See `Config.cs` in the project directory on usage examples.
 - `ClientPlugin/Tools`: Utility code for transpiler patches. Code to uncomment if you need to use publicizer to access internal, protected or private members in the original game code (optional).
