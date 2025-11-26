@@ -29,17 +29,20 @@ _Good luck!_
 
 ## Remarks
 
-### AI assisted plugin development (don't laugh)
-
-Read the `.github\copilot-instructions.md` file for further hints and insight into plugin development.
+### Using coding agents (AI, LLMs) for plugin development
 
 Use "AI" (Copilot, IDE integrated LLMs) to cut down on typing and to review your code.
 
-__How to set up an AI assisted development environment as of November 2025__
+Read the `AGENTS.md` file for further hints and insight into plugin development.
+
+__How to set up an AI-assisted development environment as of November 2025__
 - Install VSCode + Copilot plugin + Cline plugin
 - Follow all the installation and configuration instructions
 - Pay $100/year for Copilot Plug if you can afford it
 - Select GPT-5 for Plan mode and GPT-5-mini for Act mode
+
+Much of the improvement comes from providing access to the game's code and content for the coding agent.
+Follow these instructions to set up a local MCP server: https://github.com/viktor-ferenczi/se-mcp-for-plugin-dev/
 
 You may want to keep the same project open in your usual editor (VS, Rider) for manual editing and debugging and use VSCode only for the AI.
 
@@ -49,10 +52,7 @@ __How to efficiently develop with AI__
 - Work in small, iterative steps, commit each step once works
 - Auto-approve editing files inside the project (you can always revert it)
 
-Expect the best setup and models to evolv rapidly.
-
-Make sure the AI reads the above instructions and the README of your plugin before working on the code, 
-otherwise it may be a bit lost.
+Expect the best setup and models to evolve rapidly.
 
 ### Plugin configuration
 
