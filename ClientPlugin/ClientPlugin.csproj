@@ -628,7 +628,6 @@
 
   <ItemGroup>
     <Content Include="Deploy.bat" />
-    <Content Include="PluginHub.xml" />
     <None Include="App.config" />
   </ItemGroup>
 
