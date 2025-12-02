@@ -86,13 +86,11 @@ def _rename_project(name: str) -> None:
 
     def iter_paths() -> typing.Iterator[tuple[str, str]]:
         print("Solution:")
-        yield f"{TEMPLATE_NAME}.sln", f"{TEMPLATE_NAME}.sln"
-
-        if os.path.exists(f"{TEMPLATE_NAME}.sln.DotSettings.user"):
-            yield f"{TEMPLATE_NAME}.sln.DotSettings.user", f"{TEMPLATE_NAME}.sln.DotSettings.user"
+        for filename in (f'{TEMPLATE_NAME}.sln', f'{TEMPLATE_NAME}.sln.DotSettings.user', f'{TEMPLATE_NAME}.xml'):
+            if os.path.exists(filename):
+                yield filename, filename
 
         for project_name in PROJECT_NAMES:
-
             print()
             print(f"{project_name}:")
 
