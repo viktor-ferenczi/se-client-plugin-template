@@ -6,6 +6,7 @@ General instructions:
 - Always strive for minimal code changes.
 - Do not change any unrelated code or comments.
 - Follow the coding style and naming conventions of the project.
+- Do NOT write excessive source code comments. Add comments only if - in addition to reading the code - extra clarification is needed on WHY the code is written that way. Do NOT repeat the code's logic in English.
 - Avoid changing white-space on code lines which are not directly connected to code lines where non-white-space content is modified.
 - Do not change trailing whites-pace or training empty line only.
 - Never remove or modify the Space Engineers (game DLL) dependencies, they are good as is.
