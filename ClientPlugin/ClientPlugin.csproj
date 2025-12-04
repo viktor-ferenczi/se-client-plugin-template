@@ -647,6 +647,14 @@
     <PublicizerRuntimeStrategies>Unsafe;IgnoresAccessChecksTo</PublicizerRuntimeStrategies>
     <PublicizerLogFilePath>$(MSBuildProjectDirectory)\$(OutputPath)Krafs.Publicizer.log</PublicizerLogFilePath>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Publicize Include="Sandbox.Game"/>
+    <Publicize Include="SpaceEngineers.Game"/>
+    <DoNotPublicize Include="Sandbox.Game:Sandbox.Game.Entities.MyEntities.OnEntityAdd"/>
+    <DoNotPublicize Include="Sandbox.Game:Sandbox.Game.Entities.MyEntities.OnEntityRemove"/>
+    <DoNotPublicize Include="Sandbox.Game:Sandbox.Game.Entities.MyCubeGrid.OnStaticChanged"/>
+  </ItemGroup>  
   -->
     
   <PropertyGroup>
