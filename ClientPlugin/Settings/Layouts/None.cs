@@ -5,27 +5,26 @@ using System.Linq;
 using ClientPlugin.Settings.Elements;
 using VRageMath;
 
-namespace ClientPlugin.Settings.Layouts
+namespace ClientPlugin.Settings.Layouts;
+
+internal class None : Layout
 {
-    internal class None : Layout
+    public override Vector2 SettingsPanelSize => new Vector2(0.5f, 0.5f);
+
+    public None(Func<List<List<Control>>> getControls) : base(getControls) { }
+
+    public override List<MyGuiControlBase> RecreateControls()
     {
-        public override Vector2 SettingsPanelSize => new Vector2(0.5f, 0.5f);
+        return GetControls().SelectMany(x => x.Select(c => c.GuiControl)).ToList();
+    }
 
-        public None(Func<List<List<Control>>> getControls) : base(getControls) { }
-
-        public override List<MyGuiControlBase> RecreateControls()
+    public override void LayoutControls()
+    {
+        foreach (var group in GetControls())
         {
-            return GetControls().SelectMany(x => x.Select(c => c.GuiControl)).ToList();
-        }
-
-        public override void LayoutControls()
-        {
-            foreach (var group in GetControls())
+            foreach (var control in group)
             {
-                foreach (var control in group)
-                {
-                    control.GuiControl.Position = Vector2.Zero;
-                }
+                control.GuiControl.Position = Vector2.Zero;
             }
         }
     }

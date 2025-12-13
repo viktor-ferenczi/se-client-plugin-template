@@ -27,7 +27,7 @@ public class Plugin : IPlugin
         Instance.settingsGenerator = new SettingsGenerator();
 
         // TODO: Put your one time initialization code here.
-        Harmony harmony = new Harmony(Name);
+        var harmony = new Harmony(Name);
         harmony.PatchAll(Assembly.GetExecutingAssembly());
     }
 
