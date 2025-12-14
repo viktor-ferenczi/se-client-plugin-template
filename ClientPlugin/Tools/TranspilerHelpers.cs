@@ -213,7 +213,9 @@ public static class TranspilerHelpers
             ? callerMemberName.EndsWith("Transpiler") 
                 ? callerMemberName.Substring(0, callerMemberName.Length - "Transpiler".Length) 
                 : callerMemberName
-            : patchedMethod.Name;
+            : patchedMethod.IsConstructor 
+                ? "Constructor" 
+                : patchedMethod.Name;
             
         var path = Path.Combine(dir, $"{name}.{suffix}.il");
             
