@@ -1,6 +1,6 @@
 """
 Replaces project GUIDs and renames the solution
-Tested on Python 3.9, should work on any recent 3.x
+Requires Python 3.12 or newer.
 """
 
 import json
