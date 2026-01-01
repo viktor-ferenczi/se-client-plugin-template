@@ -19,9 +19,23 @@ public static class MyPlayerCollectionPatch
         // Use the config to enable patches corresponding to your plugin's features
         if (!Config.Toggle)
             return true;
+        
+        // Your logic to run before or instead the original method implementation.
+        // You cannot and should not attempt to call the original method here.
             
-        // Return false to replace the original method
-        // Return true to call the original method
+        // Return false to replace the original method, make sure any return value and out arguments are handled.
+        // Return true to call the original method.
         return true;
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(nameof(MyPlayerCollection.SendDirtyBlockLimits))]
+    public static void SendDirtyBlockLimitsPostfix()
+    {
+        // Use the config to enable patches corresponding to your plugin's features
+        if (!Config.Toggle)
+            return;
+        
+        // Your logic to run after the original method implementation.
     }
 }

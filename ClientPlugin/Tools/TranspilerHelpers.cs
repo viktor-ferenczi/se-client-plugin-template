@@ -13,13 +13,10 @@ using HarmonyLib;
 
 namespace ClientPlugin.Tools;
 
-// Useful methods in transpiler patches.
-// For usage examples please search this repo:
-// https://github.com/viktor-ferenczi/performance-improvements
 public static class TranspilerHelpers
 {
     private static readonly bool DisableCodeValidations = (Environment.GetEnvironmentVariable("SE_PLUGIN_DISABLE_METHOD_VERIFICATION") ?? "0") != "0";
-        
+
     public delegate bool OpcodePredicate(OpCode opcode);
 
     public delegate bool CodeInstructionPredicate(CodeInstruction ci);
@@ -40,7 +37,7 @@ public static class TranspilerHelpers
         if (ci == null)
             throw new CodeInstructionNotFound("No code instruction found loading or storing a field matching the given predicate");
 
-        return (FieldInfo) ci.operand;
+        return (FieldInfo)ci.operand;
     }
 
     public static MethodInfo FindPropertyGetter(this List<CodeInstruction> il, string name)
@@ -49,7 +46,7 @@ public static class TranspilerHelpers
         if (ci == null)
             throw new CodeInstructionNotFound("No code instruction found getting or setting a property matching the given predicate");
 
-        return (MethodInfo) ci.operand;
+        return (MethodInfo)ci.operand;
     }
 
     public static MethodInfo FindPropertySetter(this List<CodeInstruction> il, string name)
@@ -58,7 +55,7 @@ public static class TranspilerHelpers
         if (ci == null)
             throw new CodeInstructionNotFound("No code instruction found getting or setting a property matching the given predicate");
 
-        return (MethodInfo) ci.operand;
+        return (MethodInfo)ci.operand;
     }
 
     public static Label GetLabel(this List<CodeInstruction> il, OpcodePredicate predicate)
@@ -67,7 +64,7 @@ public static class TranspilerHelpers
         if (ci == null)
             throw new CodeInstructionNotFound("No label found matching the opcode predicate");
 
-        return (Label) ci.operand;
+        return (Label)ci.operand;
     }
 
     public static void RemoveFieldInitialization(this List<CodeInstruction> il, string name)
@@ -92,10 +89,10 @@ public static class TranspilerHelpers
         var actual = il.Hash();
         if (actual != expected && !DisableCodeValidations)
         {
-            throw new Exception($"Detected code change in {patchedMethod.Name}: actual {actual}, expected {expected}");
+            throw new Exception($"Detected code change in {patchedMethod.Name}: expected {expected}, actual {actual}");
         }
     }
-        
+
     private static string FormatCode(this List<CodeInstruction> il)
     {
         var sb = new StringBuilder();
@@ -173,10 +170,10 @@ public static class TranspilerHelpers
 
             case float f:
                 return f.ToString(CultureInfo.InvariantCulture);
-                
+
             case double d:
                 return d.ToString(CultureInfo.InvariantCulture);
-                
+
             default:
                 return argument.ToString().Trim();
         }
@@ -196,32 +193,32 @@ public static class TranspilerHelpers
     {
         RecordCode(il, callerFilePath, callerMemberName, patchedMethod, suffix);
     }
-        
+
     private static void RecordCode(List<CodeInstruction> il, string callerFilePath, string callerMemberName, MethodBase patchedMethod, string suffix)
     {
 #if DEBUG
         Debug.Assert(callerFilePath.Length > 0);
-            
+
         if (!File.Exists(callerFilePath))
             return;
 
         var dir = Path.GetDirectoryName(callerFilePath);
         if (dir == null)
             return;
-            
-        var name = patchedMethod == null 
-            ? callerMemberName.EndsWith("Transpiler") 
-                ? callerMemberName.Substring(0, callerMemberName.Length - "Transpiler".Length) 
+
+        var name = patchedMethod == null
+            ? callerMemberName.EndsWith("Transpiler")
+                ? callerMemberName.Substring(0, callerMemberName.Length - "Transpiler".Length)
                 : callerMemberName
-            : patchedMethod.Name.Replace(".ctor", "Constructor").Replace(".cctor", "StaticConstructor");
-            
+            : (patchedMethod.DeclaringType?.Name ?? "NA").Split('`')[0] + "." + patchedMethod.Name.Replace(".ctor", "Constructor").Replace(".cctor", "StaticConstructor");
+
         var path = Path.Combine(dir, $"{name}.{suffix}.il");
-            
+
         var text = il.FormatCode();
-            
+
         if (File.Exists(path) && File.ReadAllText(path) == text)
             return;
-            
+
         File.WriteAllText(path, text);
 #endif
     }
