@@ -8,6 +8,25 @@ namespace ClientPlugin.Tools;
 public static class Hashing
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int Hash(this string value)
+    {
+        unchecked
+        {
+            const int offsetBasis = unchecked((int)2166136261);
+            const int prime = 16777619;
+
+            var hash = offsetBasis;
+            foreach (var t in value)
+            {
+                hash ^= t;
+                hash *= prime;
+            }
+
+            return hash;
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int HashBody(this MethodInfo methodInfo)
     {
         var code = PatchProcessor.GetCurrentInstructions(methodInfo);
@@ -28,10 +47,9 @@ public static class Hashing
         {
             yield return instruction.opcode.GetHashCode();
 
-            if (instruction.operand?.GetType().IsValueType == true)
-                yield return instruction.operand.GetHashCode();
-
-            if (instruction.operand is string)
+            if (instruction.operand is string s)
+                yield return s.Hash();
+            else if (instruction.operand != null && instruction.operand.GetType().IsValueType)
                 yield return instruction.operand.GetHashCode();
 
             foreach (var label in instruction.labels)
