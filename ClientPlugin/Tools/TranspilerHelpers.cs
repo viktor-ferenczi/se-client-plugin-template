@@ -175,7 +175,11 @@ public static class TranspilerHelpers
                 return d.ToString(CultureInfo.InvariantCulture);
 
             default:
+#if NETCOREAPP
+                return argument.ToString()?.Trim() ?? "null";
+#else
                 return argument.ToString().Trim();
+#endif
         }
     }
 

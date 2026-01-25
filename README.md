@@ -19,7 +19,7 @@
 6. Make a test build, the plugin's DLL should be deployed (see the build log for the path)
 7. Test that the empty plugin can be enabled in Pulsar
 8. Replace the contents of this file with the description of your plugin
-9. Follow the TODO comments in the source code
+9. Follow the TODO comments in the source code and implement your plugin
 
 In case of questions please feel free to ask the SE plugin developer community on the
 [Pulsar](https://discord.gg/z8ZczP2YZY) Discord server in their relevant text channels. 
@@ -28,31 +28,6 @@ They also have dedicated channels for plugin ideas, should you look for a new on
 _Good luck!_
 
 ## Remarks
-
-### Using coding agents (AI, LLMs) for plugin development
-
-Use "AI" (Copilot, IDE integrated LLMs) to cut down on typing and to review your code.
-
-Read the `AGENTS.md` file for further hints and insight into plugin development.
-
-__How to set up an AI-assisted development environment as of November 2025__
-- Install VSCode + Copilot plugin + Cline plugin
-- Follow all the installation and configuration instructions
-- Pay $100/year for Copilot Plug if you can afford it
-- Select GPT-5 for Plan mode and GPT-5-mini for Act mode
-
-Much of the improvement comes from providing access to the game's code and content for the coding agent.
-Follow these instructions to set up a local MCP server: https://github.com/viktor-ferenczi/se-mcp-for-plugin-dev/
-
-You may want to keep the same project open in your usual editor (VS, Rider) for manual editing and debugging and use VSCode only for the AI.
-
-__How to efficiently develop with AI__
-- Always Plan first, then Act on the code base
-- Give as specific instructions as you can
-- Work in small, iterative steps, commit each step once works
-- Auto-approve editing files inside the project (you can always revert it)
-
-Expect the best setup and models to evolve rapidly.
 
 ### Plugin configuration
 
@@ -73,6 +48,22 @@ options than can fit on the screen the dialog will have a vertical scrollbar.
   - Debugger is attached to the running process.
   - You are debugging the code which is running (no code changes made since the build).
 
+### Building and debugging on .NET 10
+
+- Start the game with the `Interim.exe` Pulsar executable with the `-sources` command line option.
+- Click on the Sources button in Pulsar's dialog, then set up a development folder for your plugin.
+- Make sure to fill in the PluginHub registration XML (`YourPluginName.xml` in this repo) and load that as well.
+- Select `Debug` mode and run `Interim.exe`, then attach the debugger. That should allow debugging your plugin.
+- Select `Release` mode to test exactly how Pulsar will build and run your plugin on the player's machine.
+- The registered development folder shows up as a plugin you can select in the plugin list and save into a profile.
+
+#### Separate .NET 10 DLL build and deployment
+
+- Build your plugin for both `net10` and `net48`.
+- Make a copy of the `Legacy` folder as `Interim`, it will have a separate set of everything (profiles, `Local` dir).
+- Extend `Deploy.bat` to deploy the .NET 10 build to the `Interim\Local` folder.
+- Now you can start `Interim.exe` with debugging and debug the binary build of your plugin as usual.
+
 ### Accessing internal, protected and private members in game code
 
 Enable the Krafs publicizer to significantly reduce the amount of reflections you need to write.
@@ -80,6 +71,10 @@ Enable the Krafs publicizer to significantly reduce the amount of reflections yo
 This can be done by systematically uncommenting the code sections marked with "Uncomment to enable publicizer support".
 Make sure not to miss any of those. List the game assemblies you need to publicize in `GameAssembliesToPublicize.cs`.
 In case of problems read about the [Krafs Publicizer](https://github.com/krafs/Publicizer) or reach out on the [Pulsar](https://discord.gg/z8ZczP2YZY) Discord server.
+
+### AI assisted plugin development
+
+Please consider using [se-dev-skills](https://github.com/viktor-ferenczi/se-dev-skills/) for better outcomes.
 
 ### Troubleshooting
 

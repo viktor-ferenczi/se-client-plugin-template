@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ClientPlugin</RootNamespace>
     <AssemblyName>ClientPluginTemplate</AssemblyName>
-    <LangVersion>13</LangVersion>
+    <LangVersion>14</LangVersion>
 
     <!-- Ensure SDK generates assembly attributes (no need for AssemblyInfo) -->
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -632,7 +632,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Lib.Harmony" Version="2.3.6" />
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.6" />
     <!-- Uncomment to enable publicizer support  
     <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
