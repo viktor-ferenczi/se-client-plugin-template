@@ -134,7 +134,11 @@ public static class PreloaderHelpers
                 return b.ToString(CultureInfo.InvariantCulture);
 
             default:
+#if NETCOREAPP
                 return operand.ToString()?.Trim() ?? "null";
+#else
+                return operand.ToString().Trim();
+#endif
         }
     }
 
