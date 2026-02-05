@@ -253,6 +253,16 @@ public static class PreloaderHelpers
                 : callerMemberName
             : method.DeclaringType.Name.Split('`')[0] + "." + method.Name.Replace(".ctor", "Constructor").Replace(".cctor", "StaticConstructor");
 
+        // For compiler-generated methods (containing non-alphanumeric chars other than _),
+        // extract just the local function name, e.g., "<LoadFromFile>g__PerformLoad|0" -> "PerformLoad"
+        if (name.Any(c => !char.IsLetterOrDigit(c) && c != '_' && c != '.'))
+        {
+            var match = System.Text.RegularExpressions.Regex.Match(name, @"g__(\w+)");
+            name = match.Success
+                ? match.Groups[1].Value
+                : new string(name.Where(c => char.IsLetterOrDigit(c) || c == '_' || c == '.').ToArray());
+        }
+        
         var path = Path.Combine(dir, $"{name}.{suffix}.il");
 
         var text = instructions.FormatCode();
