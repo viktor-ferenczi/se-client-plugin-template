@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <PluginData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="GitHubPlugin">
 
-    <Id>todo-github-user/project-name</Id>
-    <GroupId>todo-github-user/project-name</GroupId>
+    <Id>A061FC6C-713E-42CD-B413-151AC8A5074C</Id>
+    <RepoId>todo-github-user/project-name</RepoId>
 
     <FriendlyName>TODO ClientPluginTemplate</FriendlyName>
     <Author>TODO Author Name</Author>
