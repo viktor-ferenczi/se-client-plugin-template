@@ -40,22 +40,10 @@ if not exist "%PLUGIN_DIR%" (
 REM Copy the plugin into the plugin directory
 echo Copying "%SOURCE%\%NAME%" to "%PLUGIN_DIR%\"
 
-for /l %%i in (1, 1, 10) do (
-    copy /y "%SOURCE%\%NAME%" "%PLUGIN_DIR%\"
-
-    if !ERRORLEVEL! NEQ 0 (
-        REM "timeout" requires input redirection which is not supported,
-        REM so we use ping as a way to delay the script between retries.
-        ping -n 2 127.0.0.1 >NUL 2>&1
-    ) else (
-        goto BREAK_LOOP
-    )
+copy /y "%SOURCE%\%NAME%" "%PLUGIN_DIR%\"
+if !ERRORLEVEL! NEQ 0 (
+    echo ERROR: Could not copy "%NAME%", make sure the game does not run and try again.
+    exit /b 1
 )
 
-REM This part will only be reached if the loop has been exhausted
-REM Any success would skip to the BREAK_LOOP label below
-echo ERROR: Could not copy "%NAME%".
-exit /b 1
-
-:BREAK_LOOP
 exit /b 0
