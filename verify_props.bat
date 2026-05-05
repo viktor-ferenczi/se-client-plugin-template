@@ -5,6 +5,7 @@ REM It assumes "Directory.Build.props" and "verify_props" are both in the soluti
 setlocal
 
 set SOLUTION=%~dp0
+set STATUS=0
 
 REM Loop through each parameter provided
 for %%a in (%*) do (
@@ -13,8 +14,9 @@ for %%a in (%*) do (
     if not exist "%%~a" (
 
         REM Raise an error for each bad path - this will prevent the build from completing.
-        echo ERROR: Invalid path "%%~a" in "%SOLUTION%Directory.Build.Props" 1>&2
+        echo ERROR: Invalid path "%%~a" in "%SOLUTION%Directory.Build.props" 1>&2
+        set STATUS=1
     )
 )
 
-exit /b 0
+exit /b %STATUS%
