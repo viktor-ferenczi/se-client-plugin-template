@@ -1,6 +1,6 @@
 # Space Engineers Client Plugin Template
 
-[Server/Client version of the template](https://github.com/sepluginloader/PluginTemplate)
+[Server/Client version of the template](https://github.com/viktor-ferenczi/se-server-plugin-template)
 
 ## Prerequisites
 
