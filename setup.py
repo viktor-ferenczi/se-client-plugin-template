@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Replaces project GUIDs and renames the solution
 Requires Python 3.12 or newer.
