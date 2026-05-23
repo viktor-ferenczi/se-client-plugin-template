@@ -14,8 +14,24 @@
     <FileVersion>1.0.0.0</FileVersion>
     <PathSeparator Condition="$([MSBuild]::IsOSPlatform('Windows'))">\</PathSeparator>
     <PathSeparator Condition="!$([MSBuild]::IsOSPlatform('Windows'))">/</PathSeparator>
+
+    <!-- Auto-detect Bin64 by platform when not explicitly set in Directory.Build.props -->
+
+    <!-- Windows: Steam App registry key -->
+    <_SteamAppInstallLocation Condition=" '$(Bin64)' == '' AND $([MSBuild]::IsOSPlatform('Windows')) ">$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 244850@InstallLocation)</_SteamAppInstallLocation>
+    <Bin64 Condition=" '$(Bin64)' == '' AND '$(_SteamAppInstallLocation)' != '' ">$(_SteamAppInstallLocation)\Bin64</Bin64>
+
+    <!-- Windows: standard Steam install path -->
+    <Bin64 Condition=" '$(Bin64)' == '' AND $([MSBuild]::IsOSPlatform('Windows')) AND Exists('C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Bin64') ">C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Bin64</Bin64>
+
+    <!-- Linux: common Steam install locations under the user home -->
+    <_UserHome Condition=" '$(Bin64)' == '' AND !$([MSBuild]::IsOSPlatform('Windows')) ">$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))</_UserHome>
+    <Bin64 Condition=" '$(Bin64)' == '' AND '$(_UserHome)' != '' AND Exists('$(_UserHome)/.steam/steam/steamapps/common/SpaceEngineers/Bin64') ">$(_UserHome)/.steam/steam/steamapps/common/SpaceEngineers/Bin64</Bin64>
+    <Bin64 Condition=" '$(Bin64)' == '' AND '$(_UserHome)' != '' AND Exists('$(_UserHome)/.local/share/Steam/steamapps/common/SpaceEngineers/Bin64') ">$(_UserHome)/.local/share/Steam/steamapps/common/SpaceEngineers/Bin64</Bin64>
+    <Bin64 Condition=" '$(Bin64)' == '' AND '$(_UserHome)' != '' AND Exists('$(_UserHome)/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/SpaceEngineers/Bin64') ">$(_UserHome)/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/SpaceEngineers/Bin64</Bin64>
+
     <Bin64Dir>$(Bin64)</Bin64Dir>
-    <Bin64Dir Condition="!HasTrailingSlash('$(Bin64Dir)')">$(Bin64Dir)$(PathSeparator)</Bin64Dir>
+    <Bin64Dir Condition=" '$(Bin64Dir)' != '' AND !HasTrailingSlash('$(Bin64Dir)') ">$(Bin64Dir)$(PathSeparator)</Bin64Dir>
 
     <!-- Default configuration if none supplied -->
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
