@@ -683,7 +683,7 @@
 
   <Target Name="DeployPlugin" AfterTargets="Build" Condition="'$(RunPostBuildEvent)' != 'Never'">
     <PropertyGroup>
-      <DeploySourceDir>$(MSBuildProjectDirectory)$(PathSeparator)$(OutputPath)$(TargetFramework)</DeploySourceDir>
+      <DeploySourceDir>$(MSBuildProjectDirectory)$(PathSeparator)$(OutputPath)</DeploySourceDir>
     </PropertyGroup>
     <Exec Condition="$([MSBuild]::IsOSPlatform('Windows'))"
           Command="call &quot;$(MSBuildProjectDirectory)\Deploy.bat&quot; &quot;$(AssemblyName).dll&quot; &quot;$(DeploySourceDir)&quot;" />
