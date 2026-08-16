@@ -67,6 +67,12 @@
       </Version>
     </AlternateVersions> 
     -->
+    
+    <!-- Assets
+    <Asset Name="AssetFolder" Path="Fixtures/folder"/>
+    <Asset Name="RemoteArchive" Url="https://example.com/archive.zip" Sha256="..." Extract="true"/>
+    <Asset Name="RemoteReference" Url="https://example.com/AssemblyFileName.dll" Sha256="..." FileName="CustomName.dll" Reference="true"/>
+    -->
 
     <!-- Feel free to delete the comments and the commented out optional blocks once you're done. -->
 
