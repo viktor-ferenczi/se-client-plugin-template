@@ -1,0 +1,26 @@
+<Project>
+  <!-- Folders overridable by Directory.Build.props.user -->
+  <PropertyGroup>
+    <!-- Folder containing SpaceEngineers.exe.
+         Leave empty to use the platform-specific auto-detection in ClientPlugin.csproj. -->
+    <Bin64></Bin64>
+  </PropertyGroup>
+
+  <!-- Plugin version (committed, shared by all contributors) -->
+  <Import Project="Version.Build.props" />
+
+  <!-- Local developer overrides for the folders above; ignored by Git (*.user).
+       Copy the PropertyGroup above into Directory.Build.props.user, wrapped into a
+       top-level Project element, and fill in your local paths there. Running setup.py
+       writes that file for you. -->
+  <Import Project="$(MSBuildThisFileDirectory)Directory.Build.props.user"
+          Condition="Exists('$(MSBuildThisFileDirectory)Directory.Build.props.user')" />
+
+  <!-- Repository root (this file lives in it). Used instead of $(SolutionDir) so
+       the prebuild verification scripts are found whether the build is driven from
+       the solution or a single project. $(MSBuildThisFileDirectory) ends with a
+       directory separator. -->
+  <PropertyGroup>
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+  </PropertyGroup>
+</Project>

@@ -6,7 +6,7 @@ STATUS=0
 
 for path in "$@"; do
     if [ ! -e "$path" ]; then
-        printf 'ERROR: Invalid path "%s" in "%s/Directory.Build.props"\n' "$path" "$SCRIPT_DIR" >&2
+        printf 'ERROR: Invalid path "%s" in "%s/Directory.Build.props[.user]"\n' "$path" "$SCRIPT_DIR" >&2
         STATUS=1
     fi
 done

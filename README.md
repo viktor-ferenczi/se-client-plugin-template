@@ -38,17 +38,18 @@ is shared by all contributors and stays under version control. Bump the version 
 
 ### Folder path overrides
 
-`Directory.Build.props.template` is a template for `Directory.Build.props`. The latter is a
-local config file you can use to override certain folder paths (for example the `Bin64` path
-to your Space Engineers installation). It is **not committed** to the repository, so each
-contributor keeps their own local paths.
+`Directory.Build.props` **is** committed and declares the overridable folder paths (currently
+only `Bin64`, the folder containing `SpaceEngineers.exe`) with empty defaults. It optionally
+imports `Directory.Build.props.user` from the repository root, which is **not committed**
+(matched by `*.user` in `.gitignore`), so each contributor keeps their own local paths there.
 
-`setup.py` copies `Directory.Build.props.template` to `Directory.Build.props` if the latter
-does not exist yet, then fills in the auto-detected paths. Because the override is not
-committed, anyone else who clones the repo and runs `setup.py` gets their own
-`Directory.Build.props` with paths properly auto-detected for their machine. Leaving a path
-empty in `Directory.Build.props` falls back to the platform-specific auto-detection in
-`ClientPlugin.csproj`.
+To override a path manually, copy the first `PropertyGroup` of `Directory.Build.props` into
+`Directory.Build.props.user`, wrapped into a top-level `<Project>` element, and fill in your
+paths. `setup.py` writes that file for you with the auto-detected install location, creating
+it if needed and keeping any other overrides already in it.
+
+Leaving a path empty (or having no `Directory.Build.props.user` at all) falls back to the
+platform-specific auto-detection in `ClientPlugin.csproj`.
 
 ### Plugin configuration
 
