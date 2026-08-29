@@ -30,8 +30,11 @@ USER_PROPS = "Directory.Build.props.user"
 
 USER_PROPS_TEMPLATE = """<Project>
   <PropertyGroup>
-    <!-- Folder containing SpaceEngineers.exe (empty = auto-detect) -->
+    <!-- Folder containing SpaceEngineers.exe (empty = auto-detect from Steam) -->
     <Bin64>{bin64}</Bin64>
+
+    <!-- Pulsar plugin loader folder used for automatic deployment (empty = auto-detect) -->
+    <Pulsar></Pulsar>
   </PropertyGroup>
 </Project>
 """

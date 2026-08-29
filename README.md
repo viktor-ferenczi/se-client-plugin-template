@@ -38,10 +38,15 @@ is shared by all contributors and stays under version control. Bump the version 
 
 ### Folder path overrides
 
-`Directory.Build.props` **is** committed and declares the overridable folder paths (currently
-only `Bin64`, the folder containing `SpaceEngineers.exe`) with empty defaults. It optionally
-imports `Directory.Build.props.user` from the repository root, which is **not committed**
-(matched by `*.user` in `.gitignore`), so each contributor keeps their own local paths there.
+`Directory.Build.props` **is** committed and declares the overridable folder paths with empty
+defaults:
+
+- `Bin64` — the folder containing `SpaceEngineers.exe`
+- `Pulsar` — the Pulsar folder the plugin is deployed into after each build
+
+It optionally imports `Directory.Build.props.user` from the repository root, which is **not
+committed** (matched by `*.user` in `.gitignore`), so each contributor keeps their own local
+paths there.
 
 To override a path manually, copy the first `PropertyGroup` of `Directory.Build.props` into
 `Directory.Build.props.user`, wrapped into a top-level `<Project>` element, and fill in your
@@ -49,7 +54,31 @@ paths. `setup.py` writes that file for you with the auto-detected install locati
 it if needed and keeping any other overrides already in it.
 
 Leaving a path empty (or having no `Directory.Build.props.user` at all) falls back to the
-platform-specific auto-detection in `ClientPlugin.csproj`.
+auto-detection in `Directory.Build.props`, which reads the Steam registry keys on Windows and
+the usual Steam locations on Linux, then resolves the game through Steam's `libraryfolders.vdf`,
+so installs on a secondary Steam library are found as well. Pulsar defaults to `%AppData%\Pulsar`
+on Windows and `$XDG_CONFIG_HOME/Pulsar` (or `~/.config/Pulsar`) on Linux.
+
+The build fails with a clear message if `Bin64` cannot be resolved, and warns instead of failing
+if the Pulsar folder is missing.
+
+### Deployment
+
+Each successful build copies itself into Pulsar's `Local` plugin folder, so there is nothing to
+run by hand:
+
+| Build     | Deployed to                                    |
+|-----------|------------------------------------------------|
+| `net48`   | `<Pulsar>/Legacy/Local/<PluginName>/`          |
+| `net10.0` | `<Pulsar>/Interim/Local/<PluginName>/`         |
+
+The DLL is copied as `plugin.dll`, its symbols as `plugin.pdb` and the PluginHub registration
+XML from the repository root as `plugin.xml`, so Pulsar shows the plugin under its friendly name
+and honours the runtime and platform restrictions declared there.
+
+`Interim` is the Pulsar executable running Space Engineers 1 on .NET 10. It falls back to the
+`Legacy` data folder when `<Pulsar>/Interim` does not exist, and so does the deployment.
+(`<Pulsar>/Modern` belongs to Space Engineers 2 and is never a deployment target here.)
 
 ### Plugin configuration
 
@@ -81,9 +110,9 @@ options than can fit on the screen the dialog will have a vertical scrollbar.
 
 #### Separate .NET 10 DLL build and deployment
 
-- Build your plugin for both `net10` and `net48`.
-- Make a copy of the `Legacy` folder as `Interim`, it will have a separate set of everything (profiles, `Local` dir).
-- Extend `Deploy.bat` to deploy the .NET 10 build to the `Interim\Local` folder.
+- Build your plugin for both `net10.0` and `net48`, which happens by default on Windows.
+- Make a copy of the `Legacy` folder as `Interim`, it will have a separate set of everything
+  (profiles, `Local` dir). The build then deploys the two target frameworks side by side.
 - Now you can start `Interim.exe` with debugging and debug the binary build of your plugin as usual.
 
 ### Accessing internal, protected and private members in game code
